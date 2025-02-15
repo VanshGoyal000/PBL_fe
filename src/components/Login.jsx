@@ -33,7 +33,7 @@ export default function Login() {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.user.id);
         console.log(data)
-        navigate('/');
+        window.location.href = 'https://pbl-brown.vercel.app';
       } else {
         setError(data.message || 'Login failed');
       }

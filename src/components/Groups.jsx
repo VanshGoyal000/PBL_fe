@@ -448,7 +448,7 @@ const getUserId = () => {
               </div>
             ) : (
               <button
-                onClick={() => handleShowInterest(group._id)}
+                onClick={() => handleShowInterestedStudents(group._id)}
                 className="w-full bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
                 disabled={group.interestedStudents?.some(
                   req => req.student === localStorage.getItem('userId')
