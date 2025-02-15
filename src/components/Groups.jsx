@@ -118,7 +118,7 @@ export default function Groups() {
 
   const handleShowInterestedStudents = async (requestId) => {
     try {
-      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/requests/${requestId}/interested-students`, {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/interested-students`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
