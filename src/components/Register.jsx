@@ -20,7 +20,7 @@ export default function Register() {
     setError('');
     
     try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
+      const response = await fetch('https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

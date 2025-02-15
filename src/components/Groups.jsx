@@ -27,7 +27,7 @@ export default function Groups() {
 
   const handleAcceptStudent = async (requestId, studentId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/groups/request/${requestId}/accept/${studentId}`, {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/accept/${studentId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -56,7 +56,7 @@ export default function Groups() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/api/groups/request', {
+      const response = await fetch('https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,12 +90,12 @@ export default function Groups() {
   const fetchGroups = async () => {
     try {
       const [allGroupsResponse, myGroupsResponse] = await Promise.all([
-        fetch('http://localhost:3000/api/groups/requests', {
+        fetch('https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/requests', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         }),
-        fetch('http://localhost:3000/api/groups/my-requests', {
+        fetch('https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/my-requests', {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -116,7 +116,7 @@ export default function Groups() {
 
   const handleShowInterestedStudents = async (requestId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/groups/request/${requestId}/interested-students`, {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/interested-students`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -137,7 +137,7 @@ export default function Groups() {
 
   const handleCloseGroup = async (requestId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/groups/request/${requestId}/close`, {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/close`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
