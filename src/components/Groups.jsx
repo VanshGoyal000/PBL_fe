@@ -124,13 +124,12 @@ export default function Groups() {
         }
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        setInterestedStudents(data.interestedStudents);
-      } else {
-        setMessage(data.message || 'Failed to fetch interested students');
+        const data = await response.json();
+        setInterestedStudents(data);
+        setShowInterestedStudentsModal(true);
       }
+      
     } catch (error) {
       setMessage('Error fetching interested students');
       console.error('Error:', error);
@@ -159,6 +158,32 @@ export default function Groups() {
 
     setTimeout(() => setMessage(''), 3000);
 };
+
+const handleShowInterest = async (requestId) => {
+    try {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/interest`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setMessage('Interest shown successfully!');
+        fetchGroups(); // Refresh the groups list
+      } else {
+        setMessage(data.message || 'Failed to show interest');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('Error showing interest');
+    }
+  
+    setTimeout(() => setMessage(''), 3000);
+  };
 
 const getUserId = () => {
     const userId = localStorage.getItem('userId');
@@ -448,7 +473,7 @@ const getUserId = () => {
               </div>
             ) : (
               <button
-                onClick={() => handleShowInterestedStudents(group._id)}
+                onClick={() => handleShowInterest(group._id)}
                 className="w-full bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
                 disabled={group.interestedStudents?.some(
                   req => req.student === localStorage.getItem('userId')
