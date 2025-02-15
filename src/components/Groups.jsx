@@ -5,6 +5,8 @@ export default function Groups() {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [showMyGroups, setShowMyGroups] = useState(false);
   const [myGroups, setMyGroups] = useState([]);
+  const [hasCheckedGroups, setHasCheckedGroups] = useState(false);
+
   const [newGroup, setNewGroup] = useState({
     title: '',
     description: '',
@@ -158,7 +160,37 @@ export default function Groups() {
     setTimeout(() => setMessage(''), 3000);
 };
 
+const getUserId = () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.warn('No userId found in localStorage');
+      return null;
+    }
+    return userId;
+  };
+  
+  const isCreator = (group) => {
+    const userId = localStorage.getItem('userId');
+    return group?.creator?._id && userId && group.creator._id === userId;
+  };
 
+  const filterMyGroups = (groups) => {
+    return groups.filter(group => {
+      const userId = localStorage.getItem('userId');
+      return group?.creator?._id && userId && group.creator._id === userId;
+    });
+  };
+  useEffect(() => {
+    if (!hasCheckedGroups && groups.length > 0) {
+      const myGroups = filterMyGroups(groups);
+      if (myGroups.length === 0) {
+        setMessage('No Groups!');
+      }
+      setMessage('');
+      setHasCheckedGroups(true);
+    }
+  }, [groups, hasCheckedGroups]);
+  
   
     return (
       <div className="container mx-auto px-4 py-8">
@@ -188,11 +220,23 @@ export default function Groups() {
     <div className="grid grid-cols-1 gap-4">
       {groups
         .filter(group => {
-          console.log('Comparing:', {
-            creatorId: group.creator._id,
-            userId: localStorage.getItem('userId')
-          });
-          return group.creator._id === localStorage.getItem('userId');
+            if (!group?.creator) {
+                console.warn('Group has no creator:', group);
+                return false;
+              }
+              
+              const userId = localStorage.getItem('userId');
+              if (!userId) {
+                console.warn('No userId found in localStorage');
+                return false;
+              }
+    
+              console.log('Comparing:', {
+                creatorId: group.creator._id,
+                userId: userId
+              });
+              
+              return group.creator._id === userId;
         })
         .map(group => (
           <div key={group._id} className="bg-white rounded-lg shadow-md p-6">
@@ -385,7 +429,7 @@ export default function Groups() {
               ))}
             </div>
             
-            {group.creator._id === localStorage.getItem('userId') ? (
+            {isCreator(group) ? (
               <div className="space-y-4">
                 <div className="flex space-x-2">
                   <button
