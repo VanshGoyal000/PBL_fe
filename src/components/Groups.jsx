@@ -118,23 +118,25 @@ export default function Groups() {
 
   const handleShowInterestedStudents = async (requestId) => {
     try {
-      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/request/${requestId}/interested-students`, {
+      const response = await fetch(`https://fd333eaa-97c0-4445-838b-53f918826c10-dev.e1-us-east-azure.choreoapis.dev/default/pbl/v1.0/api/groups/requests/${requestId}/interested-students`, {
+        method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setInterestedStudents(data);
-        setShowInterestedStudentsModal(true);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+  
+      const data = await response.json();
+      setInterestedStudents(data.interestedStudents || []);
+      setShowInterestedStudentsModal(true);
     } catch (error) {
+      console.error('Error fetching interested students:', error);
       setMessage('Error fetching interested students');
-      console.error('Error:', error);
     }
-};
+  };
 
   const handleCloseGroup = async (requestId) => {
     try {
